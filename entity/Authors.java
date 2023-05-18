@@ -37,4 +37,44 @@ public class Authors {
         this.city = city;
         this.book_Authors = book_Authors;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public Cities getCity() {
+        return city;
+    }
+
+    public void setCity(Cities city) {
+        this.city = city;
+    }
+
+    public Set<Book_Authors> getBook_Authors() {
+        return book_Authors;
+    }
+
+    public void setBook_Authors(Set<Book_Authors> book_Authors) {
+        this.book_Authors = book_Authors;
+    }
 }
