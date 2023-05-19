@@ -4,8 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Items_Per_Order;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.Items_Per_OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -14,8 +16,8 @@ public class Items_Per_OrderController {
     @Autowired
     private Items_Per_OrderRepository items_per_orderRepository;
     @GetMapping
-    public List<Items_Per_Order> allItemsPerOrder(){
-        return this.items_per_orderRepository.findAll();
+    public Page<Items_Per_Order> allItemsPerOrder(Pageable pageable){
+        return this.items_per_orderRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
     public Items_Per_Order itemsPerOrderById(@PathVariable(value = "id") long itemsPerOrderId){
@@ -35,5 +37,12 @@ public class Items_Per_OrderController {
         existingItemsPerOrder.setQuantity(existingItemsPerOrder.getQuantity());
         return this.items_per_orderRepository.save(existingItemsPerOrder);
 
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Items_Per_Order> deleteItemPerOrder(@PathVariable(value = "id") long itemPerOrderId){
+        Items_Per_Order existingItemPerOrder = this.items_per_orderRepository.findById(itemPerOrderId)
+                .orElseThrow(() -> new ResourceNotFoundException("ItemPerOrder with this id NOT FOUND: " + itemPerOrderId));
+        this.items_per_orderRepository.delete(existingItemPerOrder);
+        return ResponseEntity.ok().build();
     }
 }

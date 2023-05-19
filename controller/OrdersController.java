@@ -5,6 +5,9 @@ import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.OrdersRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +17,11 @@ import java.util.List;
 public class OrdersController {
     @Autowired
     private OrdersRepository ordersRepository;
-    private OrdersController ;
+
 
     @GetMapping
-    public List<Orders> allOrders(){
-        return this.ordersRepository.findAll();
+    public Page<Orders> allOrders(Pageable pageable){
+        return this.ordersRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
     public Orders orderById(@PathVariable(value = "id") long orderId){
@@ -39,6 +42,13 @@ public class OrdersController {
         existingUser.setTotal_price(existingUser.getTotal_price());
         existingUser.setTotal_quantity(existingUser.getTotal_quantity());
         return this.ordersRepository.save(existingUser);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Orders> deleteOrder(@PathVariable(value = "id") long orderId){
+        Orders existingOrder = this.ordersRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order with this id NOT FOUND: " + orderId));
+        this.ordersRepository.delete(existingOrder);
+        return ResponseEntity.ok().build();
     }
 
 }

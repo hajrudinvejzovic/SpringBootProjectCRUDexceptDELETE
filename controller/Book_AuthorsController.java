@@ -4,8 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Book_Authors;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.Book_AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -16,8 +18,8 @@ public class Book_AuthorsController {
 
     //Get all
     @GetMapping
-    public List<Book_Authors> book_Authors(){
-        return this.book_authorsRepository.findAll();
+    public Page<Book_Authors> book_Authors(Pageable pageable){
+        return this.book_authorsRepository.findAll(pageable);
 
     }
     @GetMapping("/{id}")
@@ -36,6 +38,13 @@ public class Book_AuthorsController {
         existingBookAuthors.setAuthor(existingBookAuthors.getAuthor());
         existingBookAuthors.setBook(existingBookAuthors.getBook());
         return this.book_authorsRepository.save(existingBookAuthors);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Book_Authors> deleteBookAuthors(@PathVariable (value = "id") long bookAuthorId){
+        Book_Authors existingBookAuthor = this.book_authorsRepository.findById(bookAuthorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book_Author not found with this id: " + bookAuthorId));
+        this.book_authorsRepository.delete(existingBookAuthor);
+        return ResponseEntity.ok().build();
     }
 
 }

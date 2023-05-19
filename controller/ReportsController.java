@@ -4,6 +4,9 @@ import com.SpringProject.SpringBootProject.entity.Reports;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.ReportsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +17,8 @@ public class ReportsController {
     @Autowired
     private ReportsRepository reportsRepository;
     @GetMapping("/api/reports")
-    public List<Reports> allReports(){
-        return this.reportsRepository.findAll();
+    public Page<Reports> allReports(Pageable pageable){
+        return this.reportsRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -35,5 +38,12 @@ public class ReportsController {
         existingReport.setBook(existingReport.getBook());
         existingReport.setDescription(existingReport.getDescription());
         return this.reportsRepository.save(existingReport);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Reports> deleteReport(@PathVariable(value = "id") long reportId){
+        Reports existingReport = this.reportsRepository.findById(reportId)
+                .orElseThrow(() -> new ResourceNotFoundException("Report with this id NOT FOUND: " + reportId));
+        this.reportsRepository.delete(existingReport);
+        return ResponseEntity.ok().build();
     }
 }

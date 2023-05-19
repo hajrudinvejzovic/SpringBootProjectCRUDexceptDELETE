@@ -4,9 +4,12 @@ import com.SpringProject.SpringBootProject.entity.Book_Languages;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.Book_LanguagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.awt.print.Book;
+
 import java.util.List;
 
 @RestController
@@ -15,8 +18,8 @@ public class Book_LanguagesController {
     @Autowired
     private Book_LanguagesRepository book_languagesRepository;
     @GetMapping
-    public List<Book_Languages> allLanguages(){
-        return this.book_languagesRepository.findAll();
+    public Page<Book_Languages> allLanguages(Pageable pageable){
+        return this.book_languagesRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -36,5 +39,12 @@ public class Book_LanguagesController {
         existingBookLanguage.setBook(existingBookLanguage.getBook());
         existingBookLanguage.setLanguages(existingBookLanguage.getLanguages());
         return this.book_languagesRepository.save(existingBookLanguage);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Book_Languages> deleteBookLanguage(@PathVariable(value = "id") long bookLanguageId){
+        Book_Languages existingBookLanguages = this.book_languagesRepository.findById(bookLanguageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book_Language with this id NOT FOUND: " + bookLanguageId));
+        this.book_languagesRepository.delete(existingBookLanguages);
+        return ResponseEntity.ok().build();
     }
 }

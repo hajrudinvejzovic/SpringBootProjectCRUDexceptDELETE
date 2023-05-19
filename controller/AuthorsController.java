@@ -4,8 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Authors;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -16,8 +18,8 @@ public class AuthorsController {
 
     //GET ALL
     @GetMapping
-    public List<Authors> allAuthors(){
-        return this.authorsRepository.findAll();
+    public Page<Authors> allAuthors(Pageable pageable){
+        return this.authorsRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -41,16 +43,11 @@ public class AuthorsController {
         existingAuthor.setCity(existingAuthor.getCity());
         return this.authorsRepository.save(existingAuthor);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Authors> deleteAuthor(@PathVariable (value = "id") long authorId){
+        Authors existingAuthor = this.authorsRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with this id: " + authorId));
+        this.authorsRepository.delete(existingAuthor);
+        return ResponseEntity.ok().build();
+    }
 }
-/*
-    //update user -PUT
-    @PutMapping("/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable("id") long userId){
-        User existingUser = this.userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with this id: " + userId));
-        existingUser.setname(existingUser.getname());
-        existingUser.setname(existingUser.getname());
-        existingUser.setEmail(user.getEmail());
-        return this.userRepository.save(existingUser);
-
-    }*/

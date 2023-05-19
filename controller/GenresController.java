@@ -4,8 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Genres;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.GenresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -14,8 +16,8 @@ public class GenresController {
     @Autowired
     private GenresRepository genresRepository;
     @GetMapping
-    public List<Genres> allGenres(){
-        return this.genresRepository.findAll();
+    public Page<Genres> allGenres(Pageable pageable){
+        return this.genresRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
     public Genres genreById(@PathVariable(value = "id") long genreId){
@@ -33,6 +35,13 @@ public class GenresController {
         existingGenres.setBookGenres(existingGenres.getBookGenres());
         existingGenres.setName(existingGenres.getName());
         return this.genresRepository.save(existingGenres);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Genres> deleteGenre(@PathVariable (value = "id") long genreId){
+        Genres existingGenre = this.genresRepository.findById(genreId)
+                .orElseThrow(() -> new ResourceNotFoundException("Genre with this id NOT FOUND: " + genreId));
+        this.genresRepository.delete(existingGenre);
+        return ResponseEntity.ok().build();
     }
 
 }

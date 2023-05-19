@@ -4,6 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Payments;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.PaymentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ZeroCopyHttpOutputMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +19,8 @@ public class PaymentsController {
     private PaymentsRepository paymentsRepository;
 
     @GetMapping
-    public List<Payments> allPayments(){
-        return this.paymentsRepository.findAll();
+    public Page<Payments> allPayments(Pageable pageable){
+        return this.paymentsRepository.findAll(pageable);
     }
 
 
@@ -40,5 +44,12 @@ public class PaymentsController {
         existingPayment.setUser(existingPayment.getUser());
         existingPayment.setUsers_id(existingPayment.getUsers_id());
         return this.paymentsRepository.save(existingPayment);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Payments> deletePayment(@PathVariable(value = "id") long paymentId){
+        Payments existingPayment = this.paymentsRepository.findById(paymentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Payment with this id NOT FOUND: " + paymentId));
+        this.paymentsRepository.delete(existingPayment);
+        return ResponseEntity.ok().build();
     }
 }

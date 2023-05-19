@@ -1,11 +1,14 @@
 package com.SpringProject.SpringBootProject.controller;
 
+import com.SpringProject.SpringBootProject.entity.Cities;
 import com.SpringProject.SpringBootProject.entity.Contacts;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.ContactsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -15,8 +18,8 @@ public class ContactsController {
     private ContactsRepository contactsRepository;
 
     @GetMapping
-    public List<Contacts> allContacts(){
-        return this.contactsRepository.findAll();
+    public Page<Contacts> allContacts(Pageable pageable){
+        return this.contactsRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
     public Contacts contactsById(@PathVariable(value ="id") long contactId){
@@ -36,5 +39,12 @@ public class ContactsController {
         existingContact.setEmail(existingContact.getEmail());
         existingContact.setTelephone(existingContact.getTelephone());
         return this.contactsRepository.save(existingContact);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Contacts> deleteContact(@PathVariable(value = "id") long contactId){
+        Contacts existingContact = this.contactsRepository.findById(contactId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contact with this id NOT FOUND: " + contactId));
+        this.contactsRepository.delete(existingContact);
+        return ResponseEntity.ok().build();
     }
 }

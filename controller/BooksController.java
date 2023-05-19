@@ -4,8 +4,10 @@ import com.SpringProject.SpringBootProject.entity.Books;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class BooksController {
     private BooksRepository booksRepository;
 
     @GetMapping
-    public List<Books> allBooks(){
-        return this.booksRepository.findAll();
+    public Page<Books> allBooks(Pageable pageable){
+        return this.booksRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
     public Books bookById(@PathVariable(value = "id") long bookId){
@@ -46,6 +48,13 @@ public class BooksController {
         existingBook.setTotal_pages(existingBook.getTotal_pages());
         existingBook.setIn_stock(existingBook.isIn_stock());
         return this.booksRepository.save(existingBook);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Books> deleteBook(@PathVariable(value = "id") long booksId){
+        Books existingBook = this.booksRepository.findById(booksId)
+                .orElseThrow(() -> new ResourceNotFoundException("Books with this id NOT FOUND: " + booksId));
+        this.booksRepository.delete(existingBook);
+        return ResponseEntity.ok().build();
     }
 
 }
