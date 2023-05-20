@@ -1,1 +1,4 @@
-
+- Promijenjeni su nazivi metoda
+- CRUD operacije završene
+- Paginacija implementovana
+- Jedino nije testirano u Postmanu.
