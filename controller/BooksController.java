@@ -18,16 +18,16 @@ public class BooksController {
     private BooksRepository booksRepository;
 
     @GetMapping
-    public Page<Books> allBooks(Pageable pageable){
+    public Page<Books> findAllBooks(Pageable pageable){
         return this.booksRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Books bookById(@PathVariable(value = "id") long bookId){
+    public Books findBookById(@PathVariable(value = "id") long bookId){
         return this.booksRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("Book with this Id NOT FOUND!" + bookId));
     }
     @PostMapping
-    public Books book(@RequestBody Books book){
+    public Books createBook(@RequestBody Books book){
         return this.booksRepository.save(book);
     }
     @PutMapping("/{id}")

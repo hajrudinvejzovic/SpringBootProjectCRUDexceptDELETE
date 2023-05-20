@@ -19,18 +19,18 @@ public class PaymentsController {
     private PaymentsRepository paymentsRepository;
 
     @GetMapping
-    public Page<Payments> allPayments(Pageable pageable){
+    public Page<Payments> findAllPayments(Pageable pageable){
         return this.paymentsRepository.findAll(pageable);
     }
 
 
     @GetMapping("/{id}")
-    public Payments paymentById(@PathVariable(value = "id") long paymentId){
+    public Payments findPaymentById(@PathVariable(value = "id") long paymentId){
         return this.paymentsRepository.findById(paymentId)
                 .orElseThrow(()-> new ResourceNotFoundException("Payment with this Id NOT FOUND!" + paymentId));
     }
     @PostMapping
-    public Payments payment(@RequestBody Payments payment){
+    public Payments createPayment(@RequestBody Payments payment){
         return this.paymentsRepository.save(payment);
     }
 

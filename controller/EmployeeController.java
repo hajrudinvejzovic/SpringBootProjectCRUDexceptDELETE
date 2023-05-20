@@ -17,17 +17,17 @@ public class EmployeeController {
     private EmployeesRepository employeesRepository;
 
     @GetMapping
-    public Page<Employees> allEmployees(Pageable pageable){
+    public Page<Employees> findAllEmployees(Pageable pageable){
         return this.employeesRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public Employees employeeById(@PathVariable(value = "id") long employeeId){
+    public Employees findEmployeeById(@PathVariable(value = "id") long employeeId){
         return this.employeesRepository.findById(employeeId)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee with this Id NOT FOUND!" + employeeId));
     }
     @PostMapping
-    public Employees employee(@RequestBody Employees employee){
+    public Employees createEmployee(@RequestBody Employees employee){
         return this.employeesRepository.save(employee);
     }
     @PutMapping("/{id")

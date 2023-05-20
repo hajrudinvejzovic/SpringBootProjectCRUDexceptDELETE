@@ -18,22 +18,22 @@ public class Book_LanguagesController {
     @Autowired
     private Book_LanguagesRepository book_languagesRepository;
     @GetMapping
-    public Page<Book_Languages> allLanguages(Pageable pageable){
+    public Page<Book_Languages> findAllLanguages(Pageable pageable){
         return this.book_languagesRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public Book_Languages bookLanguagesById(@PathVariable(value = "id") long bookLanguage){
+    public Book_Languages findBookLanguagesById(@PathVariable(value = "id") long bookLanguage){
         return this.book_languagesRepository.findById(bookLanguage)
                 .orElseThrow(()-> new ResourceNotFoundException("BookLanguages with this Id NOT FOUND!" + bookLanguage));
 
     }
     @PostMapping
-    public Book_Languages bookLanguages(@RequestBody Book_Languages bookLanguages){
+    public Book_Languages createBookLanguages(@RequestBody Book_Languages bookLanguages){
         return this.book_languagesRepository.save(bookLanguages);
     }
     @PutMapping("/{id}")
-    public  Book_Languages updatebookLanguages(@RequestBody Book_Languages bookLanguages, @PathVariable(value = "id") long bookLanguageId){
+    public  Book_Languages updateBookLanguages(@RequestBody Book_Languages bookLanguages, @PathVariable(value = "id") long bookLanguageId){
         Book_Languages existingBookLanguage = this.book_languagesRepository.findById(bookLanguageId)
                 .orElseThrow(()-> new ResourceNotFoundException("BookLanguage with this Id NOT FOUND!" + bookLanguageId));
         existingBookLanguage.setBook(existingBookLanguage.getBook());

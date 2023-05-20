@@ -16,16 +16,16 @@ public class GenresController {
     @Autowired
     private GenresRepository genresRepository;
     @GetMapping
-    public Page<Genres> allGenres(Pageable pageable){
+    public Page<Genres> findAllGenres(Pageable pageable){
         return this.genresRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Genres genreById(@PathVariable(value = "id") long genreId){
+    public Genres findGenreById(@PathVariable(value = "id") long genreId){
         return this.genresRepository.findById(genreId)
                 .orElseThrow(()-> new ResourceNotFoundException("Genre with this Id NOT FOUND!" + genreId));
     }
     @PostMapping
-    public Genres genre(@RequestBody Genres genres){
+    public Genres createGenre(@RequestBody Genres genres){
         return this.genresRepository.save(genres);
     }
     @PutMapping("/{id}")

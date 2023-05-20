@@ -16,12 +16,12 @@ public class UserController {
     private UserRepository userRepository;
     //return all users GET
     @GetMapping
-    public Page<User> getAllUsers(Pageable pageable){
+    public Page<User> findAllUsers(Pageable pageable){
         return this.userRepository.findAll(pageable);
     }
     //get user by id GET
    @GetMapping("/{id}")
-    public User getUserById(@PathVariable( value = "id") long userId){
+    public User findUserById(@PathVariable( value = "id") long userId){
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with this id: " + userId));
     }

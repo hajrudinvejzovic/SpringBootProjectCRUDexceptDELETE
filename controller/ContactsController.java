@@ -18,16 +18,16 @@ public class ContactsController {
     private ContactsRepository contactsRepository;
 
     @GetMapping
-    public Page<Contacts> allContacts(Pageable pageable){
+    public Page<Contacts> findAllContacts(Pageable pageable){
         return this.contactsRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Contacts contactsById(@PathVariable(value ="id") long contactId){
+    public Contacts findContactsById(@PathVariable(value ="id") long contactId){
         return this.contactsRepository.findById(contactId)
                 .orElseThrow(()-> new ResourceNotFoundException("Contact with this Id NOT FOUND!"+ contactId));
     }
     @PostMapping
-    public Contacts contact(@RequestBody Contacts contact){
+    public Contacts createContact(@RequestBody Contacts contact){
         return this.contactsRepository.save(contact);
     }
     @PutMapping("/{id}")

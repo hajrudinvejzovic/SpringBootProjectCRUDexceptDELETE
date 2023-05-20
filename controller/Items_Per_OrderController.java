@@ -16,16 +16,16 @@ public class Items_Per_OrderController {
     @Autowired
     private Items_Per_OrderRepository items_per_orderRepository;
     @GetMapping
-    public Page<Items_Per_Order> allItemsPerOrder(Pageable pageable){
+    public Page<Items_Per_Order> findAllItemsPerOrder(Pageable pageable){
         return this.items_per_orderRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Items_Per_Order itemsPerOrderById(@PathVariable(value = "id") long itemsPerOrderId){
+    public Items_Per_Order findItemsPerOrderById(@PathVariable(value = "id") long itemsPerOrderId){
         return this.items_per_orderRepository.findById(itemsPerOrderId)
                 .orElseThrow(()-> new ResourceNotFoundException("Items Per Order with this Id NOT FOUND!" + itemsPerOrderId));
     }
     @PostMapping
-    public Items_Per_Order itemsPerOrder(@RequestBody Items_Per_Order itemsPerOrder){
+    public Items_Per_Order createItemsPerOrder(@RequestBody Items_Per_Order itemsPerOrder){
         return this.items_per_orderRepository.save(itemsPerOrder);
     }
     @PutMapping("/{id}")

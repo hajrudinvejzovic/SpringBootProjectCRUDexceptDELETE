@@ -17,16 +17,16 @@ public class LanguagesController {
     private LanguagesRepository languagesRepository;
 
     @GetMapping
-    public Page<Languages> allLanguages(Pageable pageable){
+    public Page<Languages> findAllLanguages(Pageable pageable){
         return this.languagesRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Languages languageById(@PathVariable(value = "id") long languageId){
+    public Languages findLanguageById(@PathVariable(value = "id") long languageId){
         return this.languagesRepository.findById(languageId)
                 .orElseThrow(()-> new ResourceNotFoundException("Language with this Id NOT FOUND!" + languageId));
     }
     @PostMapping
-    public Languages language(@RequestBody Languages language){
+    public Languages createLanguage(@RequestBody Languages language){
         return this.languagesRepository.save(language);
     }
 

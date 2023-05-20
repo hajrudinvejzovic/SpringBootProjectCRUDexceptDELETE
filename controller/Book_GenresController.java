@@ -18,17 +18,17 @@ public class Book_GenresController {
     private Book_GenresRepository book_genresRepository;
 
    @GetMapping
-    public Page<Book_Genres> allBookGenres(Pageable pageable){
+    public Page<Book_Genres> findAllBookGenres(Pageable pageable){
        return this.book_genresRepository.findAll(pageable);
    }
 
    @GetMapping("/{id}")
-    public Book_Genres bookGenresById(@PathVariable(value = "id") long bookGenres){
+    public Book_Genres findBookGenresById(@PathVariable(value = "id") long bookGenres){
        return this.book_genresRepository.findById(bookGenres)
                .orElseThrow(()-> new ResourceNotFoundException("Book genres by this Id NOT FOUND!" + bookGenres));
    }
    @PostMapping
-    public Book_Genres bookGenres(@RequestBody Book_Genres bookGenres){
+    public Book_Genres createBookGenres(@RequestBody Book_Genres bookGenres){
        return this.book_genresRepository.save(bookGenres);
    }
    @PutMapping("/{id}")

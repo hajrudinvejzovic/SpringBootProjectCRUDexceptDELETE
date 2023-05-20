@@ -20,16 +20,16 @@ public class OrdersController {
 
 
     @GetMapping
-    public Page<Orders> allOrders(Pageable pageable){
+    public Page<Orders> findAllOrders(Pageable pageable){
         return this.ordersRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Orders orderById(@PathVariable(value = "id") long orderId){
+    public Orders findOrderById(@PathVariable(value = "id") long orderId){
         return this.ordersRepository.findById(orderId)
                 .orElseThrow(()-> new ResourceNotFoundException("Order with this Id NOT FOUND" + orderId));
     }
     @PostMapping
-    public Orders order(@RequestBody Orders order){
+    public Orders createOrder(@RequestBody Orders order){
         return this.ordersRepository.save(order);
     }
     @PutMapping("/{id}")

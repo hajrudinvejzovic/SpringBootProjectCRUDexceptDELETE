@@ -18,17 +18,17 @@ public class Book_AuthorsController {
 
     //Get all
     @GetMapping
-    public Page<Book_Authors> book_Authors(Pageable pageable){
+    public Page<Book_Authors> findAllBookAuthors(Pageable pageable){
         return this.book_authorsRepository.findAll(pageable);
 
     }
     @GetMapping("/{id}")
-    public Book_Authors bookAuthorsById(@PathVariable(value = "id") long bookAuthorId){
+    public Book_Authors findBookAuthorsById(@PathVariable(value = "id") long bookAuthorId){
         return this.book_authorsRepository.findById(bookAuthorId)
                 .orElseThrow(()-> new ResourceNotFoundException("Book_Author with this Id NOT FOUND!" + bookAuthorId));
     }
     @PostMapping
-    public Book_Authors bookAuthors(@RequestBody Book_Authors bookAuthors){
+    public Book_Authors createBookAuthors(@RequestBody Book_Authors bookAuthors){
         return this.book_authorsRepository.save(bookAuthors);
     }
     @PutMapping("/{id}")

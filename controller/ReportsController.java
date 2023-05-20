@@ -17,17 +17,17 @@ public class ReportsController {
     @Autowired
     private ReportsRepository reportsRepository;
     @GetMapping("/api/reports")
-    public Page<Reports> allReports(Pageable pageable){
+    public Page<Reports> findAllReports(Pageable pageable){
         return this.reportsRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public Reports reportById(@PathVariable (value = "id") long reportId){
+    public Reports findReportById(@PathVariable (value = "id") long reportId){
         return this.reportsRepository.findById(reportId)
                 .orElseThrow(()-> new ResourceNotFoundException("Report with this Id NOT FOUND!" + reportId));
     }
     @PostMapping
-    public Reports report(@RequestBody Reports report){
+    public Reports createReport(@RequestBody Reports report){
         return this.reportsRepository.save(report);
     }
     @PutMapping("/{id}")

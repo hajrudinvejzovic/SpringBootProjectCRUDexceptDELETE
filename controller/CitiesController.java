@@ -17,16 +17,16 @@ public class CitiesController {
     @Autowired
     private CitiesRepository citiesRepository;
     @GetMapping
-    public Page<Cities> allCities(Pageable pageable){
+    public Page<Cities> findAllCities(Pageable pageable){
         return this.citiesRepository.findAll(pageable);
     }
     @GetMapping("/{id}")
-    public Cities cityById(@PathVariable(value = "id") long cityId){
+    public Cities findCityById(@PathVariable(value = "id") long cityId){
         return this.citiesRepository.findById(cityId)
                 .orElseThrow(()-> new ResourceNotFoundException("City with this Id NOT FOUND!" + cityId));
     }
     @PostMapping
-    public Cities city(@RequestBody Cities city){
+    public Cities createCity(@RequestBody Cities city){
         return this.citiesRepository.save(city);
     }
 
