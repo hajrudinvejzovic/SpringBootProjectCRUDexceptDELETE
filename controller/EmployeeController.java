@@ -30,7 +30,7 @@ public class EmployeeController {
     public Employees createEmployee(@RequestBody Employees employee){
         return this.employeesRepository.save(employee);
     }
-    @PutMapping("/{id")
+    @PutMapping("/{id}")
     public Employees updateEmployee(@RequestBody Employees employee, @PathVariable (value = "id") long employeeId){
         Employees existingEmployee = this.employeesRepository.findById(employeeId)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee with this Id NOT FOUND!" + employeeId));
