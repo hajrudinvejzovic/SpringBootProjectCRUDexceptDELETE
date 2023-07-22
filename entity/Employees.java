@@ -1,6 +1,8 @@
 package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import javax.print.attribute.standard.MediaSize;
 
@@ -10,8 +12,12 @@ public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long employees_id;
+    @NotBlank
+    @Size(min = 3, max = 15, message = "Name must contain min 3 and max 15 characters!")
     @Column(name = "name")
     private String name;
+    @NotBlank
+    @Size(min = 3, max = 15, message = "Surname must contain min 3 and max 15 characters!")
     @Column(name = "surname")
     private String surname;
     @OneToOne(cascade = CascadeType.ALL)

@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Languages;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.LanguagesRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,12 @@ public class LanguagesController {
                 .orElseThrow(()-> new ResourceNotFoundException("Language with this Id NOT FOUND!" + languageId));
     }
     @PostMapping
-    public Languages createLanguage(@RequestBody Languages language){
+    public Languages createLanguage(@Valid @RequestBody Languages language){
         return this.languagesRepository.save(language);
     }
 
     @PutMapping("/{id}")
-    public Languages updateLanugage(@RequestBody Languages language, @PathVariable (value = "id") long languageId ){
+    public Languages updateLanugage(@Valid @RequestBody Languages language, @PathVariable (value = "id") long languageId ){
         Languages existingLanguage = this.languagesRepository.findById(languageId)
                 .orElseThrow(()-> new ResourceNotFoundException("Language with this Id NOT FOUND" + languageId));
         existingLanguage.setName(existingLanguage.getName());

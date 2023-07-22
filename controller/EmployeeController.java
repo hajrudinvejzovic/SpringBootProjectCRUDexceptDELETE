@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Employees;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.EmployeesRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,11 @@ public class EmployeeController {
                 .orElseThrow(()-> new ResourceNotFoundException("Employee with this Id NOT FOUND!" + employeeId));
     }
     @PostMapping
-    public Employees createEmployee(@RequestBody Employees employee){
+    public Employees createEmployee(@Valid @RequestBody Employees employee){
         return this.employeesRepository.save(employee);
     }
     @PutMapping("/{id}")
-    public Employees updateEmployee(@RequestBody Employees employee, @PathVariable (value = "id") long employeeId){
+    public Employees updateEmployee(@Valid @RequestBody Employees employee, @PathVariable (value = "id") long employeeId){
         Employees existingEmployee = this.employeesRepository.findById(employeeId)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee with this Id NOT FOUND!" + employeeId));
         existingEmployee.setName(employee.getName());

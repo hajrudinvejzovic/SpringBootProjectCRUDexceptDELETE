@@ -1,6 +1,9 @@
 package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Table(name = "Contacts")
@@ -13,8 +16,11 @@ public class Contacts {
     private User user;
     @OneToOne(mappedBy = "contact")
     private Employees employee;
+    @NotNull
+    @Size(min = 9, message = "number should have at least 9 numbers!")
     @Column(name = "telephone")
     private long telephone;
+    @Email
     @Column(name="email")
     private String email;
     public Contacts(){

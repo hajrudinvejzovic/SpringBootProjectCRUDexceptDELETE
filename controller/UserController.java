@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.User;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,13 @@ public class UserController {
     }
     //create user POST
     @PostMapping
-    public User createUser(@RequestBody User user){
+    public User createUser(@Valid @RequestBody User user){
         return this.userRepository.save(user); // save user into database
 
     }
     //update user -PUT
     @PutMapping("/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable("id") long userId){
+    public User updateUser(@Valid @RequestBody User user, @PathVariable("id") long userId){
         User existingUser = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with this id: " + userId));
         existingUser.setReport(existingUser.getReport());

@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Genres;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.GenresRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +26,11 @@ public class GenresController {
                 .orElseThrow(()-> new ResourceNotFoundException("Genre with this Id NOT FOUND!" + genreId));
     }
     @PostMapping
-    public Genres createGenre(@RequestBody Genres genres){
+    public Genres createGenre(@Valid @RequestBody Genres genres){
         return this.genresRepository.save(genres);
     }
     @PutMapping("/{id}")
-    public Genres updateGenres(@RequestBody Genres genres, @PathVariable (value = "id") long genresId){
+    public Genres updateGenres(@Valid @RequestBody Genres genres, @PathVariable (value = "id") long genresId){
         Genres existingGenres = this.genresRepository.findById(genresId)
                 .orElseThrow(()-> new ResourceNotFoundException("Genre with this Id NOT FOUND!" + genresId));
         existingGenres.setBookGenres(existingGenres.getBookGenres());

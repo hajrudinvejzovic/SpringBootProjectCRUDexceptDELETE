@@ -1,6 +1,9 @@
 package com.SpringProject.SpringBootProject.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Table(name = "Cities")
@@ -9,7 +12,10 @@ public class Cities {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("Id")
     private long cities_id;
+    @NotNull
+    @Size(min = 3, message = "Minimum characters are 3!")
     @Column(name = "name")
     private String name;
     @OneToOne(mappedBy = "city")

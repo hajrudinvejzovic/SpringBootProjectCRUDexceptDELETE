@@ -2,6 +2,7 @@ package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
 import org.aspectj.weaver.ast.Or;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +16,10 @@ public class Orders {
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
+    @NotNull
     @Column(name = "total_quantity")
     private long total_quantity;
+    @NotNull
     @Column(name = "total_price")
     private long total_price;
     @OneToMany(mappedBy = "order")

@@ -1,6 +1,8 @@
 package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +13,8 @@ public class Genres {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long genres_id;
+    @NotBlank
+    @Size(min = 3, max = 30, message = "genres must contain minimum 3 and maximum 30 characters!")
     @Column(name = "name")
     private String name;
 

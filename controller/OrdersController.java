@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Orders;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.OrdersRepository;
+import jakarta.validation.Valid;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,11 +30,11 @@ public class OrdersController {
                 .orElseThrow(()-> new ResourceNotFoundException("Order with this Id NOT FOUND" + orderId));
     }
     @PostMapping
-    public Orders createOrder(@RequestBody Orders order){
+    public Orders createOrder(@Valid @RequestBody Orders order){
         return this.ordersRepository.save(order);
     }
     @PutMapping("/{id}")
-    public Orders updateOrder(@RequestBody Orders order, @PathVariable(value = "id") long orderId){
+    public Orders updateOrder(@Valid @RequestBody Orders order, @PathVariable(value = "id") long orderId){
         Orders existingUser = this.ordersRepository.findById(orderId)
                 .orElseThrow(()-> new ResourceNotFoundException("Order with this Id NOT FOUND" + orderId));
         existingUser.setUser(existingUser.getUser());

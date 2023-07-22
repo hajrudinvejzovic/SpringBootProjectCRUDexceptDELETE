@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Items_Per_Order;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.Items_Per_OrderRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +26,11 @@ public class Items_Per_OrderController {
                 .orElseThrow(()-> new ResourceNotFoundException("Items Per Order with this Id NOT FOUND!" + itemsPerOrderId));
     }
     @PostMapping
-    public Items_Per_Order createItemsPerOrder(@RequestBody Items_Per_Order itemsPerOrder){
+    public Items_Per_Order createItemsPerOrder(@Valid @RequestBody Items_Per_Order itemsPerOrder){
         return this.items_per_orderRepository.save(itemsPerOrder);
     }
     @PutMapping("/{id}")
-    public Items_Per_Order updateItemsPerOrder(@RequestBody Items_Per_Order itemsPerOrder, @PathVariable(value = "id") long itemsPerOrderId){
+    public Items_Per_Order updateItemsPerOrder(@Valid @RequestBody Items_Per_Order itemsPerOrder, @PathVariable(value = "id") long itemsPerOrderId){
         Items_Per_Order existingItemsPerOrder = this.items_per_orderRepository.findById(itemsPerOrderId)
                 .orElseThrow(()-> new ResourceNotFoundException("Items Per Order with this Id NOT FOUND"  + itemsPerOrderId));
         existingItemsPerOrder.setOrder(existingItemsPerOrder.getOrder());

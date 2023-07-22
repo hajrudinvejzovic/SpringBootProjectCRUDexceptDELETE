@@ -4,6 +4,7 @@ import com.SpringProject.SpringBootProject.entity.Cities;
 import com.SpringProject.SpringBootProject.entity.Contacts;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.ContactsRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,11 @@ public class ContactsController {
                 .orElseThrow(()-> new ResourceNotFoundException("Contact with this Id NOT FOUND!"+ contactId));
     }
     @PostMapping
-    public Contacts createContact(@RequestBody Contacts contact){
+    public Contacts createContact(@Valid @RequestBody Contacts contact){
         return this.contactsRepository.save(contact);
     }
     @PutMapping("/{id}")
-    public Contacts updateContact(@RequestBody Contacts contact, @PathVariable(value  ="id") long contactId){
+    public Contacts updateContact(@Valid @RequestBody Contacts contact, @PathVariable(value  ="id") long contactId){
         Contacts existingContact = this.contactsRepository.findById(contactId)
                 .orElseThrow(()-> new ResourceNotFoundException("Contact with this Id NOT FOUND!"));
         existingContact.setUser(existingContact.getUser());

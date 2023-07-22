@@ -2,6 +2,7 @@ package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.Order;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,8 @@ public class Payments {
     private long payment_id;
     @OneToOne(mappedBy = "payment")
     private User user;
-    @Column(name = "users_id")
+
+    @OneToOne(mappedBy = "users_id")
     private long users_id;
     @OneToOne(mappedBy = "payment")
     private Orders order;

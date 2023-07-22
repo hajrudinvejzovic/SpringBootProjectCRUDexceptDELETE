@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Authors;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.AuthorsRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,12 @@ public class AuthorsController {
             .orElseThrow(()-> new ResourceNotFoundException("Author with this Id is NOT FOUND!" + author_id));
     }
     @PostMapping
-    public Authors createAuthor(@RequestBody Authors author){
+    public Authors createAuthor(@Valid @RequestBody Authors author){
         return this.authorsRepository.save(author);
     }
 
     @PutMapping("/{id}")
-    public Authors updateAuthor(@RequestBody Authors author, @PathVariable ( value = "id") long authorId){
+    public Authors updateAuthor(@Valid @RequestBody Authors author, @PathVariable ( value = "id") long authorId){
         Authors existingAuthor = this.authorsRepository.findById(authorId)
                 .orElseThrow(()-> new ResourceNotFoundException("Author with this Id NOT FOUND!" + authorId));
         existingAuthor.setName(existingAuthor.getName());

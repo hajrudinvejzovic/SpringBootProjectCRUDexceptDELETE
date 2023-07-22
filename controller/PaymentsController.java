@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Payments;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.PaymentsRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +31,12 @@ public class PaymentsController {
                 .orElseThrow(()-> new ResourceNotFoundException("Payment with this Id NOT FOUND!" + paymentId));
     }
     @PostMapping
-    public Payments createPayment(@RequestBody Payments payment){
+    public Payments createPayment(@Valid @RequestBody Payments payment){
         return this.paymentsRepository.save(payment);
     }
 
     @PutMapping("/{id}")
-    public Payments updatePayment(@RequestBody Payments payment, @PathVariable(value = "id") long paymentId){
+    public Payments updatePayment(@Valid @RequestBody Payments payment, @PathVariable(value = "id") long paymentId){
         Payments existingPayment = this.paymentsRepository.findById(paymentId)
                 .orElseThrow(()-> new ResourceNotFoundException("Payment with this Id NOT FOUND" + paymentId));
         existingPayment.setPayment_date(existingPayment.getPayment_date());

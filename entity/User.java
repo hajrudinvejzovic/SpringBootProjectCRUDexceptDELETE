@@ -2,6 +2,8 @@ package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.Order;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +18,12 @@ public class User {
     private Set<Reports> report = new HashSet<>();
     @OneToMany(mappedBy = "user")
     private Set<Orders> order = new HashSet<>();
+    @NotBlank
+    @Size(min  = 3, max = 15, message = "name should contain minimum 3 and maximum 15 characters!")
     @Column(name = "name")
     private String name;
+    @NotBlank
+    @Size(min  = 3, max = 15, message = "Surname should contain minimum 3 and maximum 15 characters!")
     @Column(name = "surname")
     private String surname;
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,7 +33,7 @@ public class User {
     @JoinColumn(name = "contacts_id")
     private Contacts contact;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payments_id")
+    @JoinColumn(name = "payment_id")
     private Payments payment;
     public User(){
 

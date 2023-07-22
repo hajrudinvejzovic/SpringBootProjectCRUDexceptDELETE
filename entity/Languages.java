@@ -1,6 +1,8 @@
 package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +13,8 @@ public class Languages {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long languages_id;
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Language name should contain minimum 2 and maximum 30 characters !")
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "languages")

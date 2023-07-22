@@ -3,8 +3,8 @@ package com.SpringProject.SpringBootProject.entity;
 import jakarta.persistence.*;
 
 import com.SpringProject.SpringBootProject.entity.Books;
-
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -19,6 +19,8 @@ public class Reports {
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
+    @NotBlank
+    @Size(min = 6, max = 150, message = "report should contain minimum 6 and maximum 150 characters! ")
     @Column(name = "description")
     private String description;
     public Reports(){

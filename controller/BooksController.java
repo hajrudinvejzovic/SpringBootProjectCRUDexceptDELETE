@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Books;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.BooksRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,11 @@ public class BooksController {
                 .orElseThrow(()-> new ResourceNotFoundException("Book with this Id NOT FOUND!" + bookId));
     }
     @PostMapping
-    public Books createBook(@RequestBody Books book){
+    public Books createBook(@Valid @RequestBody Books book){
         return this.booksRepository.save(book);
     }
     @PutMapping("/{id}")
-    public Books updateBook(@RequestBody Books book, @PathVariable(value = "id") long bookId){
+    public Books updateBook(@Valid @RequestBody Books book, @PathVariable(value = "id") long bookId){
         Books existingBook = this.booksRepository.findById(bookId)
                 .orElseThrow(()-> new ResourceNotFoundException("Book with this Id NOT FOUND!" + bookId));
         existingBook.setName(existingBook.getName());

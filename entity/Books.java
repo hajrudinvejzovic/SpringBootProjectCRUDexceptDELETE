@@ -1,6 +1,9 @@
 package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.aspectj.weaver.ast.Or;
 
 import java.util.HashSet;
@@ -14,7 +17,7 @@ public class Books {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long books_id;
-
+    @NotBlank
     @Column(name = "name")
     private String name;
 
@@ -31,19 +34,27 @@ public class Books {
 
     @OneToMany(mappedBy = "book")
     private Set<Reports> reports = new HashSet<>();
-
+    @NotNull
+    @Size(min = 4, message = "make sure you enter valid year.", max = 4)
     @Column(name = "publishing_year")
     private int publishing_year;
+    @NotNull
     @Column(name = "price")
     private int price;
+    @NotNull
     @Column(name = "bestseller")
     private boolean bestseller;
+    @NotNull
+    @Size(min = 13, max = 13, message = "Make sure your isbn number is legit.")
     @Column(name = "isbn")
     private int isbn;
+    @NotNull
     @Column(name = "total_pages")
     private int total_pages;
+    @NotNull
     @Column(name = "in_stock")
     private boolean in_stock;
+    @NotNull
     @Column(name = "availability")
     private boolean availability;
 

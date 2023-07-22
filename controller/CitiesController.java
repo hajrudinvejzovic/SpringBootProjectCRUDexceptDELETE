@@ -3,9 +3,11 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Cities;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.CitiesRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
@@ -26,12 +28,12 @@ public class CitiesController {
                 .orElseThrow(()-> new ResourceNotFoundException("City with this Id NOT FOUND!" + cityId));
     }
     @PostMapping
-    public Cities createCity(@RequestBody Cities city){
+    public Cities createCity(@Valid @RequestBody Cities city){
         return this.citiesRepository.save(city);
     }
 
     @PutMapping("/{id}")
-    public Cities updateCity(@RequestBody Cities city, @PathVariable(value = "id") long cityId){
+    public Cities updateCity( @Valid @RequestBody Cities city, @PathVariable(value = "id") long cityId){
         Cities existingCity = this.citiesRepository.findById(cityId)
                 .orElseThrow(()-> new ResourceNotFoundException("City with this Id NOT FOUND!" + cityId));
         existingCity.setName(existingCity.getName());

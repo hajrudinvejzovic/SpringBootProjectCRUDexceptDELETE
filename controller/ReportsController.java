@@ -3,6 +3,7 @@ package com.SpringProject.SpringBootProject.controller;
 import com.SpringProject.SpringBootProject.entity.Reports;
 import com.SpringProject.SpringBootProject.exception.ResourceNotFoundException;
 import com.SpringProject.SpringBootProject.repository.ReportsRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +28,11 @@ public class ReportsController {
                 .orElseThrow(()-> new ResourceNotFoundException("Report with this Id NOT FOUND!" + reportId));
     }
     @PostMapping
-    public Reports createReport(@RequestBody Reports report){
+    public Reports createReport(@Valid @RequestBody Reports report){
         return this.reportsRepository.save(report);
     }
     @PutMapping("/{id}")
-    public Reports updateReport(@RequestBody Reports report, @PathVariable (value="id") long reportId){
+    public Reports updateReport(@Valid @RequestBody Reports report, @PathVariable (value="id") long reportId){
         Reports existingReport = this.reportsRepository.findById(reportId)
                 .orElseThrow(()-> new ResourceNotFoundException("Report with this Id NOT FOUND!" + reportId));
         existingReport.setUser(existingReport.getUser());

@@ -2,6 +2,7 @@ package com.SpringProject.SpringBootProject.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.Order;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.print.Book;
 
@@ -17,6 +18,7 @@ public class Items_Per_Order {
     @ManyToOne
     @JoinColumn(name = "books_id")
     private Books book;
+    @NotNull
     @Column(name = "quantity")
     private long quantity;
     public Items_Per_Order(){
