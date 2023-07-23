@@ -22,8 +22,8 @@ public class Orders {
     @NotNull
     @Column(name = "total_price")
     private long total_price;
-    @OneToMany(mappedBy = "order")
-    private Set<Items_Per_Order> order = new HashSet<>();
+    @ManyToMany(mappedBy = "orders")
+    private Set<Books> books = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id")
     private Payments payment;
@@ -33,11 +33,11 @@ public class Orders {
 
     }
 
-    public Orders(User user, long total_quantity, long total_price, Set<Items_Per_Order> order, Payments payment) {
+    public Orders(User user, @NotNull long total_quantity, @NotNull long total_price, Set<Books> books, Payments payment) {
         this.user = user;
         this.total_quantity = total_quantity;
         this.total_price = total_price;
-        this.order = order;
+        this.books = books;
         this.payment = payment;
     }
 
@@ -65,12 +65,12 @@ public class Orders {
         this.total_price = total_price;
     }
 
-    public Set<Items_Per_Order> getOrder() {
-        return order;
+    public Set<Books> getBooks() {
+        return books;
     }
 
-    public void setOrder(Set<Items_Per_Order> order) {
-        this.order = order;
+    public void setBooks(Set<Books> books) {
+        this.books = books;
     }
 
     public Payments getPayment() {

@@ -17,15 +17,15 @@ public class Languages {
     @Size(min = 2, max = 30, message = "Language name should contain minimum 2 and maximum 30 characters !")
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "languages")
-    private Set<Book_Languages> book_Languages = new HashSet<>();
+    @ManyToMany(mappedBy = "languages")
+    private Set<Books> books = new HashSet<>();
     public Languages(){
 
     }
 
-    public Languages(String name, Set<Book_Languages> book_Languages) {
+    public Languages(String name, Set<Books> books) {
         this.name = name;
-        this.book_Languages = book_Languages;
+        this.books = books;
     }
 
     public String getName() {
@@ -36,11 +36,11 @@ public class Languages {
         this.name = name;
     }
 
-    public Set<Book_Languages> getBook_Languages() {
-        return book_Languages;
+    public Set<Books> getBooks() {
+        return books;
     }
 
-    public void setBook_Languages(Set<Book_Languages> book_Languages) {
-        this.book_Languages = book_Languages;
+    public void setBooks(Set<Books> books) {
+        this.books = books;
     }
 }

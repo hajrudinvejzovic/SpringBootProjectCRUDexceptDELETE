@@ -18,15 +18,15 @@ public class Genres {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "genre")
-    private Set<Book_Genres> BookGenres = new HashSet<>();
+    @ManyToMany(mappedBy = "genres")
+    private Set<Books> books = new HashSet<>();
     public Genres(){
 
     }
 
-    public Genres(String name, Set<Book_Genres> bookGenres) {
+    public Genres(String name, Set<Books> books) {
         this.name = name;
-        BookGenres = bookGenres;
+        this.books = books;
     }
 
     public String getName() {
@@ -37,11 +37,11 @@ public class Genres {
         this.name = name;
     }
 
-    public Set<Book_Genres> getBookGenres() {
-        return BookGenres;
+    public Set<Books> getBooks() {
+        return books;
     }
 
-    public void setBookGenres(Set<Book_Genres> bookGenres) {
-        BookGenres = bookGenres;
+    public void setBooks(Set<Books> books) {
+        this.books = books;
     }
 }

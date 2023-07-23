@@ -21,16 +21,28 @@ public class Books {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "book")
-    private Set<Book_Genres> book_Genres = new HashSet<>() ;
+    @ManyToMany
+    @JoinTable(name = "Book_Genres",
+               joinColumns = @JoinColumn(name = "book_id"),
+           inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private Set<Genres> genres = new HashSet<>() ;
 
-   @OneToMany(mappedBy = "book")
-    private Set<Book_Authors> book_Authors = new HashSet<>();
-    @OneToMany(mappedBy = "book")
-    private Set<Book_Languages> book_Languages = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "Book_Authors"
+            , joinColumns = @JoinColumn (name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Authors> authors = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "Book_Languages",
+    joinColumns = @JoinColumn(name = "books_id"),
+    inverseJoinColumns = @JoinColumn(name = "languages_id"))
+    private Set<Languages> languages = new HashSet<>();
 
-    @OneToMany(mappedBy = "book")
-    private Set<Items_Per_Order> items_Per_Orders = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "Items_Per_Order",
+     joinColumns = @JoinColumn(name = "books_id"),
+    inverseJoinColumns = @JoinColumn(name = "Orders_id"))
+    private Set<Orders> orders = new HashSet<>();
 
     @OneToMany(mappedBy = "book")
     private Set<Reports> reports = new HashSet<>();
@@ -62,12 +74,13 @@ public class Books {
 
     }
 
-    public Books(String name, Set<Book_Genres> book_Genres, Set<Book_Authors> book_Authors, Set<Book_Languages> book_Languages, Set<Items_Per_Order> items_Per_Orders, Set<Reports> reports, int publishing_year, int price, boolean bestseller, int isbn, int total_pages, boolean in_stock, boolean availability) {
+    public Books(long books_id, String name, Set<Genres> genres, Set<Authors> authors, Set<Languages> languages, Set<Orders> orders, Set<Reports> reports, int publishing_year, int price, boolean bestseller, int isbn, int total_pages, boolean in_stock, boolean availability) {
+        this.books_id = books_id;
         this.name = name;
-        this.book_Genres = book_Genres;
-        this.book_Authors = book_Authors;
-        this.book_Languages = book_Languages;
-        this.items_Per_Orders = items_Per_Orders;
+        this.genres = genres;
+        this.authors = authors;
+        this.languages = languages;
+        this.orders = orders;
         this.reports = reports;
         this.publishing_year = publishing_year;
         this.price = price;
@@ -86,36 +99,36 @@ public class Books {
         this.name = name;
     }
 
-    public Set<Book_Genres> getBook_Genres() {
-        return book_Genres;
+    public Set<Genres> getGenres() {
+        return genres;
     }
 
-    public void setBook_Genres(Set<Book_Genres> book_Genres) {
-        this.book_Genres = book_Genres;
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
     }
 
-    public Set<Book_Authors> getBook_Authors() {
-        return book_Authors;
+    public Set<Authors> getAuthors() {
+        return authors;
     }
 
-    public void setBook_Authors(Set<Book_Authors> book_Authors) {
-        this.book_Authors = book_Authors;
+    public void setAuthors(Set<Authors> authors) {
+        this.authors = authors;
     }
 
-    public Set<Book_Languages> getBook_Languages() {
-        return book_Languages;
+    public Set<Languages> getLanguages() {
+        return languages;
     }
 
-    public void setBook_Languages(Set<Book_Languages> book_Languages) {
-        this.book_Languages = book_Languages;
+    public void setLanguages(Set<Languages> languages) {
+        this.languages = languages;
     }
 
-    public Set<Items_Per_Order> getItems_Per_Orders() {
-        return items_Per_Orders;
+    public Set<Orders> getOrders() {
+        return orders;
     }
 
-    public void setItems_Per_Orders(Set<Items_Per_Order> items_Per_Orders) {
-        this.items_Per_Orders = items_Per_Orders;
+    public void setOrders(Set<Orders> orders) {
+        this.orders = orders;
     }
 
     public Set<Reports> getReports() {
@@ -182,3 +195,4 @@ public class Books {
         this.availability = availability;
     }
 }
+
