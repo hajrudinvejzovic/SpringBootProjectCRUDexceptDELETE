@@ -31,19 +31,19 @@ public class Authors {
     @JoinColumn(name = "city_id")
     private Cities city;
 
-    @OneToMany(mappedBy = "author")
-    private Set<Book_Authors> book_Authors = new HashSet<>();
+    @ManyToMany(mappedBy = "authors")
+    private Set<Books> books = new HashSet<>();
 
    public Authors(){
 
    }
 
-    public Authors(String name, String surname, String birth, Cities city, Set<Book_Authors> book_Authors) {
+    public Authors(String name, String surname, String birth, Cities city, Set<Books> books) {
         this.name = name;
         this.surname = surname;
         this.birth = birth;
         this.city = city;
-        this.book_Authors = book_Authors;
+        this.books = books;
     }
 
     public String getName() {
@@ -78,11 +78,12 @@ public class Authors {
         this.city = city;
     }
 
-    public Set<Book_Authors> getBook_Authors() {
-        return book_Authors;
+    public Set<Books> getBooks() {
+        return books;
     }
 
-    public void setBook_Authors(Set<Book_Authors> book_Authors) {
-        this.book_Authors = book_Authors;
+    public void setBooks(Set<Books> books) {
+        this.books = books;
     }
 }
+
